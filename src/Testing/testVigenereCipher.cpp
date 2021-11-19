@@ -1,4 +1,4 @@
-//! Unit Tests for MPAGSCipher CaesarCipher Class
+//! Unit Tests for MPAGSCipher VigenereCipher Class
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 

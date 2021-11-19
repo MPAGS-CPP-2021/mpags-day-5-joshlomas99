@@ -50,7 +50,7 @@ class Cipher {
      * \brief Function to encrypt and decrypt the supplied text.
      *
      * \param input the text to encrypt or decrypt
-     * \param Mode whether to encrypt or decrypt the input text
+     * \param mode whether to encrypt or decrypt the input text
      * \return the result of applying the cipher to the input text
      */
     virtual std::string applyCipher( const std::string& input, const CipherMode mode ) const = 0;
