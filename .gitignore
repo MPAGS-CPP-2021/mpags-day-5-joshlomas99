@@ -41,4 +41,3 @@
 
 # VS Code
 .vscode/*
-/src/MPAGSCipher/Cipher.hpp
