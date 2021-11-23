@@ -2,6 +2,8 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+#include <vector>
+
 #include "../MPAGSCipher/Cipher.hpp"
 #include "../MPAGSCipher/CipherFactory.hpp"
 #include "../MPAGSCipher/CipherMode.hpp"
@@ -22,20 +24,40 @@ bool testCipher( const std::unique_ptr<Cipher>& cipher, const CipherMode mode, c
 
 TEST_CASE("All Cipher encryption", "[all ciphers]")
 {
-    auto cc{cipherFactory( CipherType::Caesar, "10" )};
-    auto pc{cipherFactory( CipherType::Playfair, "hello" )};
-    auto vc{cipherFactory( CipherType::Vigenere, "key" )};
-    REQUIRE(testCipher(cc, CipherMode::Encrypt, "HELLOWORLD", "ROVVYGYBVN"));
-    REQUIRE(testCipher(pc, CipherMode::Encrypt, "BOBISSOMESORTOFJUNIORCOMPLEXXENOPHONEONEZEROTHING", "FHIQXLTLKLTLSUFNPQPKETFENIOLVSWLTFIAFTLAKOWATEQOKPPA"));
-    REQUIRE(testCipher(vc, CipherMode::Encrypt, "HELLOWORLD", "RIJVSUYVJN"));
+    std::vector<std::unique_ptr<Cipher>> ciphers;
+    std::vector<std::string> encrypted_text;
+    ciphers.push_back( cipherFactory( CipherType::Caesar, "10" ) );
+    encrypted_text.push_back( "ROVVYGYBVN" );
+    ciphers.push_back( cipherFactory( CipherType::Playfair, "hello" ) );
+    encrypted_text.push_back( "ELDLOAYESEGX" );
+    ciphers.push_back( cipherFactory( CipherType::Vigenere, "key" ) );
+    encrypted_text.push_back( "RIJVSUYVJN" );
+
+    int cipher_num{0};
+    for ( const auto& c : ciphers ) {
+        REQUIRE(testCipher(c, CipherMode::Encrypt, "HELLOWORLD", encrypted_text.at(cipher_num)));
+        cipher_num++;
+    }
 }
 
 TEST_CASE("All Cipher decryption", "[all ciphers]")
 {
-    auto cc{cipherFactory( CipherType::Caesar, "10" )};
-    auto pc{cipherFactory( CipherType::Playfair, "hello" )};
-    auto vc{cipherFactory( CipherType::Vigenere, "key" )};
-    REQUIRE(testCipher(cc, CipherMode::Decrypt, "ROVVYGYBVN", "HELLOWORLD"));
-    REQUIRE(testCipher(pc, CipherMode::Decrypt, "FHIQXLTLKLTLSUFNPQPKETFENIOLVSWLTFIAFTLAKOWATEQOKPPA", "BOBISXSOMESORTOFIUNIORCOMPLEXQXENOPHONEONEZEROTHINGZ"));
-    REQUIRE(testCipher(vc, CipherMode::Decrypt, "RIJVSUYVJN", "HELLOWORLD"));
+    std::vector<std::unique_ptr<Cipher>> ciphers;
+    std::vector<std::string> encrypted_text;
+    std::vector<std::string> decrypted_text;
+    ciphers.push_back( cipherFactory( CipherType::Caesar, "10" ) );
+    encrypted_text.push_back( "ROVVYGYBVN" );
+    decrypted_text.push_back( "HELLOWORLD" );
+    ciphers.push_back( cipherFactory( CipherType::Playfair, "hello" ) );
+    encrypted_text.push_back( "ELDLOAYESEGX" );
+    decrypted_text.push_back( "HELXLOWORLDZ" );
+    ciphers.push_back( cipherFactory( CipherType::Vigenere, "key" ) );
+    encrypted_text.push_back( "RIJVSUYVJN" );
+    decrypted_text.push_back( "HELLOWORLD" );
+
+    int cipher_num{0};
+    for ( const auto& c : ciphers ) {
+        REQUIRE(testCipher(c, CipherMode::Decrypt, encrypted_text.at(cipher_num), decrypted_text.at(cipher_num)));
+        cipher_num++;
+    }
 }
