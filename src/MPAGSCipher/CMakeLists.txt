@@ -5,10 +5,15 @@ add_library(MPAGSCipher STATIC
   Alphabet.hpp
   CaesarCipher.hpp
   CaesarCipher.cpp
+  Cipher.hpp
+  CipherFactory.hpp
+  CipherFactory.cpp
   CipherMode.hpp
   CipherType.hpp
   PlayfairCipher.hpp
   PlayfairCipher.cpp
+  VigenereCipher.hpp
+  VigenereCipher.cpp
   ProcessCommandLine.hpp
   ProcessCommandLine.cpp
   TransformChar.hpp
@@ -19,5 +24,5 @@ target_include_directories(MPAGSCipher
   PUBLIC ${CMAKE_CURRENT_LIST_DIR}
   )
 target_compile_features(MPAGSCipher
-  PUBLIC cxx_std_17
+  PUBLIC cxx_std_17 cxx_std_14
   )
